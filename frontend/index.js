@@ -188,7 +188,7 @@ function addTabelRow(element) {
   t6.id = "td-diagnosis" + element.id;
   t6.innerText = element.diagnosis;
   let t7 = document.createElement("td");
-  t7.id = "td-covide" + element.id;
+  t7.id = "td-covid" + element.id;
   t7.innerText = element.covid;
   let t8 = document.createElement("td");
   t8.id = "td-discharge" + element.id;
