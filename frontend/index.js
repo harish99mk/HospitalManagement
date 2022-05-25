@@ -36,6 +36,9 @@ function DataModel() {
 }
 var dataObject = new DataModel();
 function onRowSelect(data) {
+  if (dataObject.id === data.currentTarget.id) {
+    return;
+  }
   dataObject.id = data.currentTarget.id;
 
   if (document.querySelectorAll(".details-row").length) {
@@ -89,6 +92,12 @@ function saveDetails() {
   };
   if (dataObject.id) {
     req.open("Put", "http://localhost:8085/api/patients/" + dataObject.id);
+    dataObject.columnNames.forEach((name) => {
+      let td = document.getElementById("td-" + name + dataObject.id);
+      if (td && payload[name]) {
+        td.innerText = payload[name];
+      }
+    });
   } else {
     req.onload = () => {
       let newData = JSON.parse(req.responseText);
@@ -153,6 +162,7 @@ function loadPatients() {
 }
 function deletePatiend(data) {
   remove(data.currentTarget.id.replace("btn", ""));
+  addClicked();
 }
 function addTabelRow(element) {
   let tr = document.createElement("tr");
@@ -160,20 +170,28 @@ function addTabelRow(element) {
   tr.className = "details-row";
   tr.addEventListener("click", onRowSelect);
   let t1 = document.createElement("td");
+  t1.id = "td-id" + element.id;
   t1.innerText = element.id;
   let t2 = document.createElement("td");
+  t2.id = "td-name" + element.id;
   t2.innerText = element.name;
   let t3 = document.createElement("td");
+  t3.id = "td-age" + element.id;
   t3.innerText = element.age;
   let t4 = document.createElement("td");
+  t4.id = "td-address" + element.id;
   t4.innerText = element.address;
   let t5 = document.createElement("td");
+  t5.id = "td-gender" + element.id;
   t5.innerText = element.gender;
   let t6 = document.createElement("td");
+  t6.id = "td-diagnosis" + element.id;
   t6.innerText = element.diagnosis;
   let t7 = document.createElement("td");
+  t7.id = "td-covide" + element.id;
   t7.innerText = element.covid;
   let t8 = document.createElement("td");
+  t8.id = "td-discharge" + element.id;
   let btn = document.createElement("button");
   btn.id = "btn" + element.id;
   btn.addEventListener("click", this.deletePatiend);
@@ -183,6 +201,10 @@ function addTabelRow(element) {
   document.getElementById("table").appendChild(tr);
 }
 function addClicked() {
+  document.getElementById("form").style.display = "block";
+  document.getElementById("saveButton").addEventListener("click", () => {
+    saveDetails();
+  });
   dataObject.id = null;
   if (document.querySelectorAll(".details-row").length) {
     for (const node of document.querySelectorAll(".details-row")) {
