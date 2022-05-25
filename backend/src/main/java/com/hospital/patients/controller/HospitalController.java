@@ -89,7 +89,7 @@ public class HospitalController {
                 if (patient.getGender() != null)
                     _patient.setGender(patient.getGender());
 		if (patient.getCovid() != null)
-+                    _patient.setCovid(patient.getCovid());
+                    _patient.setCovid(patient.getCovid());
                 return new ResponseEntity<>(patientRepository.save(_patient), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
